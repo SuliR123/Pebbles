@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// represents the side menu that is hidden at start of program
 struct SideMenuView: View {
     @Binding var isShowing : Bool
         
@@ -17,6 +18,7 @@ struct SideMenuView: View {
             
             
             VStack(alignment: .leading) {
+                // Button to close the side menu
                 Button(action: {
                     withAnimation(.spring()) {
                         isShowing.toggle()
@@ -31,15 +33,13 @@ struct SideMenuView: View {
                     }
                 )
                 
+                // Drop down list of filter buttons
                 DropDownView()
                 
                 // Stats drop down
                 // Settings? 
                 Spacer()
             }
-            
-        }
-        .overlay(alignment: .topLeading) {
             
         }
     }

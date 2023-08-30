@@ -7,6 +7,8 @@
 
 import MapKit
 
+// represents the users location on the map, gets permission to use user location
+// and stores and filters all points on the map the user wants to display
 final class ContentViewModel : NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var region = MKCoordinateRegion(
@@ -18,14 +20,18 @@ final class ContentViewModel : NSObject, ObservableObject, CLLocationManagerDele
     )
     
     var locationManager: CLLocationManager?
-
+    
+    // coordinate array that gets displayed to the user
     @Published var displayCords : [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
     
+    // Array of all locations the user has been too with their most recent dates
     @Published var allLocations : [Location] = [Location]()
-    
+        
+    // Determines how the location display is getting filtered
     var filterType = Filter.normal
     
-    func checkLocationServices() { 
+    // checks if the user has location services enables on their phone
+    func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
             locationManager!.delegate = self;
@@ -38,6 +44,7 @@ final class ContentViewModel : NSObject, ObservableObject, CLLocationManagerDele
         }
     }
     
+    // asks for the users permission to use location based on what their current location settings for the app is
     private func checkLocationAuth() {
         guard let locationManager = locationManager else {
             return
@@ -60,17 +67,21 @@ final class ContentViewModel : NSObject, ObservableObject, CLLocationManagerDele
         }
     }
     
+    // changes the filter type based on user input
     func setFilterType(type : Filter) {
         filterType = type
     }
     
+    // checks if we are authorized to use location
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         checkLocationAuth()
     }
     
+    // when the users location is updated, update loaction list accordignly
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0] as CLLocation
         
+        // add current location to all locations list
         addLocation(cord: userLocation.coordinate)
         // update list of displayed cords 
         filterThroughEnum()
@@ -137,6 +148,7 @@ final class ContentViewModel : NSObject, ObservableObject, CLLocationManagerDele
     }
 }
 
+// check how we are filtering list of locations 
 enum Filter {
     case normal, byTenSeconds, byOneDay
 }

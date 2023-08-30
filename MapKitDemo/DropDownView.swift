@@ -18,7 +18,7 @@ struct DropDownView: View {
     
     var body: some View {
         VStack {
-            // Hamburger menu icon in top left
+            // Button that enables drop down of filter buttons 
             HStack {
                 Button(
                     action: {
@@ -35,6 +35,7 @@ struct DropDownView: View {
                 Spacer()
             }
             
+            // stack of buttons for the drop down
             if displayOptions {
                 VStack {
                     FilterButtonView(action : {
@@ -54,6 +55,7 @@ struct DropDownView: View {
     }
 }
 
+// Represents a button in the drop down that filters locations
 struct FilterButtonView : View {
     
     var action : () -> Void
@@ -66,6 +68,7 @@ struct FilterButtonView : View {
     
     var body : some View {
         HStack {
+            // creates a button with specified action
             Button(
                 action: action,
                 label: {
