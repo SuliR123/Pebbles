@@ -10,12 +10,15 @@ import SwiftUI
 // Drop down for filter options on the map
 struct DropDownView: View {
     
+    // Display drop down menu or not
     @State private var displayOptions = false
     
+    // reference to how the locations are being filtered 
     @EnvironmentObject var viewModel : ContentViewModel
     
     var body: some View {
         VStack {
+            // Hamburger menu icon in top left
             HStack {
                 Button(
                     action: {

@@ -20,8 +20,10 @@ import MapKit
 
 struct ContentView: View {
     
+    // checks if we are displaying side menu or not
     @State private var isShowing = false
     
+    // tracks all locations and filtering
     @StateObject var viewModel = ContentViewModel()
     
     var body: some View {
@@ -29,7 +31,9 @@ struct ContentView: View {
             if isShowing {
                 SideMenuView(isShowing: $isShowing)
             }
-
+            
+            // displays map to user
+            // conditional renders for when the side menu view is open
             HomeView()
                 .cornerRadius(isShowing ? 20 : 0)
                 .offset(x : isShowing ? 150 : 0, y: 0)
@@ -43,6 +47,7 @@ struct ContentView: View {
                             }
                         },
                         label: {
+                            // Stops rendering menu icon when side bar is open
                             if !isShowing {
                                 Image("MenuIcon")
                                     .bold()
@@ -63,10 +68,12 @@ struct ContentView: View {
 
 struct HomeView : View {
     
+    // gets reference to environments instance of the users location
     @EnvironmentObject var viewModel : ContentViewModel
     
     @Namespace var mapScope
     
+    // displays map to user
     var body : some View {
         VStack {
             Map(scope: mapScope) {
@@ -80,6 +87,7 @@ struct HomeView : View {
                     .buttonBorderShape(.circle)
             }
             .onAppear {
+                // asks the users permission to use their location
                 viewModel.checkLocationServices()
             }
         }
